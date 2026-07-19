@@ -49,7 +49,7 @@ async function sendMessage(text) {
         const res = await fetch(`${API_BASE}/chat/stream-generate`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text }),
+            body: JSON.stringify({ message: text }),
         });
 
         const reader = res.body.getReader();
