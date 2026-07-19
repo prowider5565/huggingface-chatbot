@@ -12,10 +12,6 @@ services:
       DATABASE_URL: postgresql+psycopg://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-huggingface_chatbot}
     volumes:
       - model-cache:/root/.cache/huggingface
-    depends_on:
-      db:
-        condition: service_healthy
 
 volumes:
-  pgdata:
   model-cache:
