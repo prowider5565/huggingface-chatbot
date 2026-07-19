@@ -16,6 +16,7 @@ class Settings(BaseSettings):
         default="postgresql+psycopg://postgres:postgres@localhost:5432/huggingface_chatbot",
         validation_alias="DATABASE_URL",
     )
+    model_name: str = "Qwen/Qwen2.5-0.5B-Instruct"
 
     model_config = SettingsConfigDict(
         env_file=".env",
