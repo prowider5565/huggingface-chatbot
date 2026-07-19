@@ -12,9 +12,11 @@ async def generate_chat_response(input: InputSchema):
     response = generate_text(input.text)
     return {"msg": response}
 
+
 @chat_router.post("/stream-generate")
 async def stream_chat_response(input: InputSchema):
     return StreamingResponse(
         generate_stream(input.text),
         media_type="text/plain",
+        headers={"X-Accel-Buffering": "no", "Cache-Control": "no-cache"},
     )
