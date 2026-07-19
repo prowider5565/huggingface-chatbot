@@ -6,8 +6,7 @@ __pycache__
 .env
 .env.example
 *.md
-alembic
-alembic.ini
+
 .pytest_cache
 .mypy_cache
 .ruff_cache

@@ -1,7 +1,23 @@
 services:
+  db:
+    container_name: chatbotdb
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-huggingface_chatbot}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   app:
+    container_name: chatbotapp
     build: .
     restart: unless-stopped
     ports:
@@ -12,6 +28,10 @@ services:
       DATABASE_URL: postgresql+psycopg://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-huggingface_chatbot}
     volumes:
       - model-cache:/root/.cache/huggingface
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
+  pgdata:
   model-cache:
