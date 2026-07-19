@@ -46,7 +46,7 @@ async function sendMessage(text) {
     let fullResponse = "";
 
     try {
-        const res = await fetch("/api/v1/chat/stream-generate", {
+        const res = await fetch(`${API_BASE}/chat/stream-generate`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text }),

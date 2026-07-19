@@ -10,4 +10,7 @@ templates = Jinja2Templates(directory="app/templates")
 
 @router.get("/")
 async def index(request: Request):
-    return templates.TemplateResponse(request, "index.html", {"app_name": settings.app_name})
+    return templates.TemplateResponse(request, "index.html", {
+        "app_name": settings.app_name,
+        "api_v1_prefix": settings.api_v1_prefix,
+    })

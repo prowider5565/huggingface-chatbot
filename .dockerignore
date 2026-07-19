@@ -1,0 +1,17 @@
+.venv
+__pycache__
+*.pyc
+.git
+.gitignore
+.env
+.env.example
+*.md
+alembic
+alembic.ini
+.pytest_cache
+.mypy_cache
+.ruff_cache
+test.py
+docker-compose.yml
+Dockerfile
+.dockerignore
