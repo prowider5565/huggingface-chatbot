@@ -3,12 +3,26 @@ const form = document.getElementById("chat-form");
 const input = document.getElementById("user-input");
 const sendBtn = document.getElementById("send-btn");
 
+marked.setOptions({
+    highlight: (code, lang) => {
+        if (lang && hljs.getLanguage(lang)) {
+            return hljs.highlight(code, { language: lang }).value;
+        }
+        return hljs.highlightAuto(code).value;
+    },
+    breaks: true,
+});
+
 function addMessage(role, content) {
     const div = document.createElement("div");
     div.className = `message ${role}`;
     const contentDiv = document.createElement("div");
     contentDiv.className = "message-content";
-    contentDiv.textContent = content;
+    if (role === "assistant") {
+        contentDiv.innerHTML = marked.parse(content);
+    } else {
+        contentDiv.textContent = content;
+    }
     div.appendChild(contentDiv);
     messagesEl.appendChild(div);
     messagesEl.scrollTop = messagesEl.scrollHeight;
@@ -28,6 +42,8 @@ async function sendMessage(text) {
 
     sendBtn.disabled = true;
     input.value = "";
+
+    let fullResponse = "";
 
     try {
         const res = await fetch("/api/v1/chat/stream-generate", {
@@ -50,7 +66,8 @@ async function sendMessage(text) {
                 assistantDiv.parentElement.classList.remove("message-thinking");
                 started = true;
             }
-            assistantDiv.textContent += chunk;
+            fullResponse += chunk;
+            assistantDiv.innerHTML = marked.parse(fullResponse);
             scrollToBottom();
         }
     } catch (err) {
